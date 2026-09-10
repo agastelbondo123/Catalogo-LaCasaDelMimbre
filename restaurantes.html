@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurantes - La Casa del Mimbre</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,500;1,600&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =======================================================
+     ENCABEZADO
+======================================================== -->
+
+<header>
+
+    <a href="index.html" class="volver">← Volver</a>
+
+    <div class="logo">
+        <img src="imagenes/logo.png" alt="La Casa del Mimbre">
+    </div>
+
+    <h1>Restaurantes</h1>
+
+    <p>Mobiliario y decoración pensados para tu negocio.</p>
+
+</header>
+
+<!-- =======================================================
+     MENÚ DE SUBCATEGORÍAS
+======================================================== -->
+
+<nav>
+
+<div class="menu">
+
+    <a href="#muebles">Muebles</a>
+
+    <a href="#decoracion">Decoración</a>
+
+</div>
+
+</nav>
+
+<main>
+
+<!-- #######################################################
+     CATEGORÍA - MUEBLES
+######################################################## -->
+
+<section id="muebles" class="categoria">
+
+<h2>Muebles</h2>
+
+<p>
+    Sillas, mesas y mobiliario resistente para tu restaurante.
+</p>
+
+<div class="productos">
+
+    <!-- MODIFICAR: agrega aquí tus productos de muebles para restaurantes.
+         Copia el formato de un bloque "producto" de casas.html y pégalo aquí. -->
+
+    <p class="vacio">Próximamente nuevos productos en esta categoría.</p>
+
+</div>
+
+</section>
+
+<!-- #######################################################
+     CATEGORÍA - DECORACIÓN
+######################################################## -->
+
+<section id="decoracion" class="categoria">
+
+<h2>Decoración</h2>
+
+<p>
+    Detalles artesanales para ambientar tu local.
+</p>
+
+<div class="productos">
+
+    <!-- MODIFICAR: agrega aquí tus productos de decoración para restaurantes -->
+
+    <p class="vacio">Próximamente nuevos productos en esta categoría.</p>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- =======================================================
+     PIE DE PÁGINA
+======================================================== -->
+
+<footer>
+
+    <p><strong>La Casa del Mimbre</strong></p>
+
+    <p>Santa Marta, Colombia</p>
+
+    <p>WhatsApp: +57 301 237 64877</p>
+
+    <p>Instagram: @casadel_mimbre</p>
+
+    <p>© 2026 Todos los derechos reservados.</p>
+
+</footer>
+
+<!-- =======================================================
+     VENTANA EMERGENTE PARA AMPLIAR FOTOS (lightbox)
+======================================================== -->
+
+<div id="modal-imagen" class="modal-imagen">
+    <span class="cerrar-modal">&times;</span>
+    <img class="modal-contenido" id="imagen-ampliada">
+</div>
+
+<script>
+
+// Ampliar imagen al hacer clic
+const modal = document.getElementById('modal-imagen');
+const imagenAmpliada = document.getElementById('imagen-ampliada');
+const cerrar = document.querySelector('.cerrar-modal');
+
+document.querySelectorAll('.producto img').forEach(img => {
+    img.addEventListener('click', () => {
+        imagenAmpliada.src = img.src;
+        modal.classList.add('activo');
+    });
+});
+
+cerrar.addEventListener('click', () => modal.classList.remove('activo'));
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('activo');
+});
+
+const numeroWhatsApp = "573054714100"; // tu número, sin +, sin espacios
+
+document.querySelectorAll('.producto').forEach(producto => {
+    const nombre = producto.querySelector('h3').textContent.trim();
+    const boton = producto.querySelector('.boton');
+    const mensaje = `Hola, quiero información sobre: ${nombre}`;
+    boton.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+});
+</script>
+
+</body>
+</html>
