@@ -1,5 +1,5 @@
 backend:
-  name: git-gateway
+  name: github
   repo: agastelbondo123/Catalogo-LaCasaDelMimbre
   branch: main
 
