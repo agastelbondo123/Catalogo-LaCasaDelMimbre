@@ -1,3 +1,12 @@
 {
-  "productos": []
+  "productos": [
+    {
+      "imagen": "imagenes/mesa de comedor con tirillas de madera marron.jpg",
+      "nombre": "Mesa de comedor con base de tirillas de madera de color marron",
+      "descripcion": "Mesa de comedor con cubierta reengrosada y base doble de tirillas de madera color marrón.",
+      "pagina": "casas",
+      "categoria": "sala",
+      "precio": "0"
+    }
+  ]
 }
