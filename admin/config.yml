@@ -1,7 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: agastelbondo123/Catalogo-LaCasaDelMimbre
   branch: main
-
+  
 media_folder: "imagenes"
 public_folder: "imagenes"
 
