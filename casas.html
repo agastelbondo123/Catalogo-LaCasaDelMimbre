@@ -876,12 +876,11 @@ document.querySelectorAll('.producto').forEach(producto => {
 
 </script>
 
-<!-- SCRIPT QUE LEE EL EXCEL Y ARMA LA PÁGINA SEGÚN TUS IDs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
   // ¡ATENCIÓN! PEGA TU ENLACE LARGO (.csv) AQUÍ
   const urlDelExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vST8PjW-hteGIwEfj6p_J4xa8Wx5Vc_rEurmLrAjP1aYZ1gClH8yiw4TiMvrU-RMbQGpq4bZvU_MgTA/pub?output=csv";
-  const numeroWhatsAppDinamico = "573054714100"; // Tu número para el botón
+  const numeroWhatsAppDinamico = "573054714100";
 
   Papa.parse(urlDelExcel, {
     download: true,
@@ -889,22 +888,20 @@ document.querySelectorAll('.producto').forEach(producto => {
     complete: function(resultados) {
       const mueblesExcel = resultados.data;
 
-      mueblesExcel.forEach(mueble => {
-        // Validación: Verifica que la fila tenga los 4 datos necesarios
+      mueblesExcel.forEach((mueble) => {
+        // Validación: Verifica que ningún campo clave esté vacío
         if(mueble.Nombre && mueble.Foto && mueble.Categoria && mueble.Subcategoria) { 
           
-          // Limpia las palabras para evitar errores por espacios
-          const categoria = mueble.Categoria.trim().toLowerCase();
-          const subcategoria = mueble.Subcategoria.trim().toLowerCase();
-
-          // Reconstruye el ID que tú usaste en tu HTML (ej: productos-sala-sillas)
+          // LA CORRECCIÓN: .trim() quita los espacios invisibles, y .replace(/ /g, '-') cambia espacios intermedios por guiones
+          const categoria = mueble.Categoria.trim().toLowerCase().replace(/ /g, '-');
+          const subcategoria = mueble.Subcategoria.trim().toLowerCase().replace(/ /g, '-');
+          
+          // Arma el ID exactamente como lo tienes en tu HTML (ej: productos-cuarto-somieres-bases)
           const idContenedor = `productos-${categoria}-${subcategoria}`;
+          
           const contenedorDestino = document.getElementById(idContenedor);
 
-          // Si el contenedor existe en la página, inyecta tu estructura HTML exacta
           if(contenedorDestino) {
-            
-            // Creamos el enlace de WhatsApp personalizado para este mueble
             const mensajeWa = `Hola, quiero información sobre: ${mueble.Nombre.trim()}`;
             const enlaceWa = `https://wa.me/${numeroWhatsAppDinamico}?text=${encodeURIComponent(mensajeWa)}`;
 
@@ -922,13 +919,15 @@ document.querySelectorAll('.producto').forEach(producto => {
                   </div>
               </div>
             `;
-            // Añade el mueble al principio del contenedor
+            // Añade el mueble de Excel justo antes de los que tienes escritos a mano
             contenedorDestino.innerHTML = tarjetaHTML + contenedorDestino.innerHTML;
+          } else {
+             // Si sigue sin encontrarlo, la consola de tu navegador te dirá exactamente qué ID intentó buscar
+             console.error(`❌ ERROR: Intenté meter "${mueble.Nombre}" en el ID "${idContenedor}" pero no existe en tu HTML.`);
           }
         }
       });
       
-      // Reactivar la función de ampliar foto para los muebles nuevos
       asignarLightboxAMueblesNuevos();
     },
     error: function(err) {
@@ -936,13 +935,11 @@ document.querySelectorAll('.producto').forEach(producto => {
     }
   });
 
-  // Función para que el Lightbox (ampliar foto) funcione en los muebles de Excel
   function asignarLightboxAMueblesNuevos() {
     const modal = document.getElementById('modal-imagen');
     const imagenAmpliada = document.getElementById('imagen-ampliada');
     
     document.querySelectorAll('.producto img').forEach(img => {
-      // Evita duplicar el evento en las imágenes que ya lo tienen
       if(!img.dataset.clickAsignado){
         img.addEventListener('click', () => {
             imagenAmpliada.src = img.src;
