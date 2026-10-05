@@ -154,24 +154,28 @@ document.querySelectorAll('.producto').forEach(producto => {
 });
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
 // =======================================================
-// Cargar productos agregados desde el panel de administración
+// Cargar productos desde el Google Sheet
 // =======================================================
-fetch('data/productos.json')
-    .then(res => res.json())
-    .then(datos => {
-        datos.productos.forEach(p => {
-            const contenedor = document.getElementById(`productos-${p.categoria}`);
+Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vS8XMYRRTYXGLe4yvDMDBtJyzOoyTGLVptCv0tqVL1V2WUDGx7EM6QoLM2XWGUs9GOZexIQe-KGcqYt/pub?output=csv', {
+    download: true,
+    header: true,
+    complete: function(resultado) {
+        resultado.data.forEach(p => {
+            if (!p['Nombre del producto']) return; // salta filas vacías
+
+            const contenedor = document.getElementById(`productos-${p['Dónde va']}`);
             if (!contenedor) return;
 
             const div = document.createElement('div');
             div.className = 'producto';
             div.innerHTML = `
-                <img src="${p.imagen}" alt="${p.nombre}">
+                <img src="${p['formula']}" alt="${p['Nombre del producto']}">
                 <div class="info">
-                    <h3>${p.nombre}</h3>
-                    <p class="descripcion">${p.descripcion}</p>
-                    <p class="precio">${p.precio}</p>
+                    <h3>${p['Nombre del producto']}</h3>
+                    <p class="descripcion">${p['Descripción']}</p>
                     <a class="boton" href="#" target="_blank">Pedir por WhatsApp</a>
                 </div>
             `;
@@ -184,11 +188,12 @@ fetch('data/productos.json')
             });
 
             const boton = div.querySelector('.boton');
-            const mensaje = `Hola, quiero información sobre: ${p.nombre}`;
+            const mensaje = `Hola, quiero información sobre: ${p['Nombre del producto']}`;
             boton.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
         });
-    })
-    .catch(err => console.log('No se pudieron cargar productos del panel:', err));
+    }
+});
+</script>
 
 </script>
 
